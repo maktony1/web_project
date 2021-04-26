@@ -1,20 +1,42 @@
+//이 프로젝트 플러그인 의존성 관리를 위한 설정
+buildscript {
+    /*
+    ext는 build.gradle에서 사용하는 전역변수를 절정하겠다는 의미. 여기서는 springBootVersion 전역변수를 생성하고
+    그 값을 '2.1.7.RELEASE'로 하겠다는 의미 즉, spring-boot-gradle-plugin라는 스프링 부트 그레이들 플러그인의
+    2.1.7RELEASE를 의존성으로 받겠다는 의미
+    */
+    ext {
+        springBootVersion ='2.1.7.RELEASE'
+    }
 
-plugins {
-    id 'java'
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
 }
+/*
+앞에서 선언한 플러그인 의존성들을 적용할 것인지 결정하는 코드
+'io.spring.dependency.management' 플러그인은 스프링부트의 의존성 들을 관리해주는 플러그인이라 꼭 추가해야함
+이 4개의 플러그인은 자바와 스프링부트를 사용하기 위해서는 필수라 항상 추가해주기!!!!
+*/
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
 
 group 'com.maktony.book'
 version '1.0-SNAPSHOT'
+sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
-}
-
-test {
-    useJUnitPlatform()
+    compile('org.springframework.boot:spring-boot-starter-web')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
 }
